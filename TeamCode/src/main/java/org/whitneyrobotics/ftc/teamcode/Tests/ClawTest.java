@@ -35,7 +35,7 @@ public class ClawTest extends OpModeEx {
         }else{
             claw.setPosition(servopos(5.0));
         }
-        telemetry.addLine("Servo Pos: ", servopos(claw.getPosition());
-        telemetry.update();
+        telemetryPro.addData("Servo Pos: ", servopos(claw.getPosition()));
+        telemetryPro.update();
     }
 }
