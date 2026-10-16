@@ -6,7 +6,7 @@ import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
 import org.whitneyrobotics.ftc.teamcode.Subsystems.Intake;
 
 @TeleOp(name = "intaketest")
-public class IntakeTest extends OpModeEx {
+public class   IntakeTest extends OpModeEx {
     public Intake intake;
     @Override
     public void initInternal() {
