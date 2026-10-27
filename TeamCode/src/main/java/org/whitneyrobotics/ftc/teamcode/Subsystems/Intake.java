@@ -7,7 +7,7 @@ public class Intake {
     public DcMotorEx intakeMotor;
 
     public Intake(HardwareMap hardwareMap){
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "in");
     }
 
     public void run(double scalar) {
