@@ -1,23 +1,36 @@
 package org.whitneyrobotics.ftc.teamcode.Subsystems;
 import com.pedropathing.follower.Follower;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.whitneyrobotics.ftc.teamcode.pedro.Constants;
+
+import org.whitneyrobotics.ftc.teamcode.pedropathing.Constants;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.whitneyrobotics.ftc.teamcode.Extensions.GamepadEx.GamepadEx;
+
+import com.pedropathing.drivetrain.DrivePowers;
+import com.pedropathing.follower.ManualDrive;
 
 public class Drivetrain {
-        private Follower follower;
+        public Follower follower;
+        public DrivePowers powers;
+
         public Drivetrain(HardwareMap hardwareMap){
             follower = Constants.create(hardwareMap);
         }
 
-        public void run(double ly, double lx, double rx){
+        public void robotCentric(double ly, double lx, double rx){
             follower.manual(
-                -ly,
-                lx,
-                rx
+                ly,
+                -lx,
+                -rx
             );
+            follower.update();
+        }
+        public void fieldCentric(double ly, double lx, double rx){
+            powers = ManualDrive.fieldCentric(
+                    ly,
+                    -lx,
+                    -rx,
+                   follower.pose().heading()
+            );
+            follower.manual(powers);
             follower.update();
         }
 }

@@ -7,11 +7,11 @@ public class Intake {
     public DcMotorEx intakeMotor;
 
     public Intake(HardwareMap hardwareMap){
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "in");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intake");
     }
 
     public void run(double scalar) {
-        intakeMotor.setPower(1 * scalar);
+        intakeMotor.setPower(0.5 * scalar);
     }
 
     public void stop(){

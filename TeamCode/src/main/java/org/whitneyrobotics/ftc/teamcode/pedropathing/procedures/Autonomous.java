@@ -1,4 +1,4 @@
-package org.whitneyrobotics.ftc.teamcode.pedro.procedures;
+package org.whitneyrobotics.ftc.teamcode.pedropathing.procedures;
 
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
@@ -11,7 +11,7 @@ import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
 
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
-import org.whitneyrobotics.ftc.teamcode.pedro.Constants;
+import org.whitneyrobotics.ftc.teamcode.pedropathing.Constants;
 
 public class Autonomous extends OpModeEx {
 
@@ -98,7 +98,7 @@ public class Autonomous extends OpModeEx {
     @Override
     public void initInternal() {
         Scheduler.reset();
-        follower = Constants.create(hardwareMap);
+//        follower = Constants.create(hardwareMap);
         if (follower != null) {
             follower.setPose(blueStartPose);
             follower.update();

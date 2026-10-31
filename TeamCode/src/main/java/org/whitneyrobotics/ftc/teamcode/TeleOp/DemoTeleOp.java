@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
 import org.whitneyrobotics.ftc.teamcode.Subsystems.Intake;
 
-@TeleOp(name = "DemeTeleOp")
+@TeleOp(name = "DemoTeleOp")
 public class DemoTeleOp extends OpModeEx {
 
     DcMotorEx fL, bL, fR, bR;
