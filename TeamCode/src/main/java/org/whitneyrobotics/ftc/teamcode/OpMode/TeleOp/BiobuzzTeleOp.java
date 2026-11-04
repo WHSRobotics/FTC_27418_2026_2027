@@ -1,14 +1,8 @@
-package org.whitneyrobotics.ftc.teamcode.TeleOp;
+package org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import com.pedropathing.follower.ManualDrive;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
-import org.whitneyrobotics.ftc.teamcode.Subsystems.Intake;
 import org.whitneyrobotics.ftc.teamcode.Subsystems.Robot;
 
 @TeleOp(name="BiobuzzTeleOp")
