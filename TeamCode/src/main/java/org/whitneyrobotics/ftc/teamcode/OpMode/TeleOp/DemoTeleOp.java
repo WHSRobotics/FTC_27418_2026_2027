@@ -1,4 +1,4 @@
-package org.whitneyrobotics.ftc.teamcode.TeleOp;
+package org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
