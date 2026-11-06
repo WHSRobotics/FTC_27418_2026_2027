@@ -56,19 +56,13 @@ public class BiobuzzTeleOp extends OpModeEx {
             }
         });
 
-        // --- Manual Rising Edge Detection for Outtake Toggle ---
-        // 1. Read current raw button state (assuming standard Qualcomm gamepad or OpModeEx button getter)
+        //toggle
         boolean currOuttake = gamepad1.BUMPER_LEFT.value();
-
-        // 2. Rising Edge Trigger: True ONLY on the exact frame the button goes from false to true
         if (currOuttake && !prevOuttake) {
             outtakeActive = !outtakeActive;
         }
-
-        // 3. Update previous state for the next loop iteration
         prevOuttake = currOuttake;
 
-        // --- Execute code based on outtakeActive toggle state ---
         if (outtakeActive) {
             gamepad1.Y.onPress(() -> {
                 velo1 = velocities[0];
