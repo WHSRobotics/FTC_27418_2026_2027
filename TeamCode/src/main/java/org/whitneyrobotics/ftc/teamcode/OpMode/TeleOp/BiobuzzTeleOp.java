@@ -11,19 +11,16 @@ public class BiobuzzTeleOp extends OpModeEx {
 
     private Robot robot;
     private boolean robotCentric = true;
-    private Outtake outtake;
 
-    double[] velocities = {1000, 2000, 3000, 4000};
+    double[] velocities = {1600, 2000, 2400, 2800};
     double velo1 = 0.0;
 
     // Edge detection state variables
-    boolean outtakeActive = false;
-    boolean prevOuttake = false;
+    boolean transferOn = false;
 
     @Override
     public void initInternal() {
         robot = new Robot(hardwareMap);
-        outtake = new Outtake(hardwareMap);
     }
 
     @Override
@@ -57,34 +54,47 @@ public class BiobuzzTeleOp extends OpModeEx {
         });
 
         //toggle
-        boolean currOuttake = gamepad1.BUMPER_LEFT.value();
-        if (currOuttake && !prevOuttake) {
-            outtakeActive = !outtakeActive;
+        if(gamepad2.RIGHT_TRIGGER.value()>0){
+            robot.outtake.run(velo1);
+        } else{
+            robot.outtake.stop();
         }
-        prevOuttake = currOuttake;
 
-        if (outtakeActive) {
-            gamepad1.Y.onPress(() -> {
-                velo1 = velocities[0];
-            });
-            gamepad1.B.onPress(() -> {
-                velo1 = velocities[1];
-            });
-            gamepad1.A.onPress(() -> {
-                velo1 = velocities[2];
-            });
-            gamepad1.X.onPress(() -> {
-                velo1 = velocities[3];
-            });
-            outtake.run(velo1);
-            telemetryPro.addLine("RPM: " + velo1);
-            telemetryPro.update();
-        }else{
-            outtake.stop();
-        }
+        gamepad1.Y.onPress(() -> {
+            velo1 = velocities[0];
+        });
+        gamepad1.B.onPress(() -> {
+            velo1 = velocities[1];
+        });
+        gamepad1.A.onPress(() -> {
+            velo1 = velocities[2];
+        });
+        gamepad1.X.onPress(() -> {
+            velo1 = velocities[3];
+        });
+        telemetryPro.addData("velocity: ", robot.outtake.getVelocity());
+        telemetryPro.addData("target velocity: ", velo1);
+        telemetryPro.update();
 
         telemetryPro.addData("robot centric? ", robotCentric);
-        telemetryPro.addData("outtake active? ", outtakeActive);
         telemetryPro.update();
+
+
+        gamepad1.X.onPress(()->{
+            transferOn =! transferOn;
+
+        });
+        if (transferOn){
+            robot.transfer.run();
+
+        }
+        else{
+            robot.transfer.stop();
+
+        }
+
+
+
+
     }
 }
