@@ -11,12 +11,16 @@ import org.whitneyrobotics.ftc.teamcode.Subsystems.Outtake;
 
 public class Robot {
     public Intake intake;
-//    public Outtake outtake;
+    public Outtake outtake;
     public Drivetrain drive;
+    public TransferWheel transfer;
+
 
     public Robot(HardwareMap hardwareMap){
         intake = new Intake(hardwareMap);
         drive = new Drivetrain(hardwareMap);
+        transfer = new TransferWheel(hardwareMap);
+        outtake = new Outtake(hardwareMap);
     }
 
 }

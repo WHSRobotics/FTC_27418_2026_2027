@@ -11,7 +11,7 @@ public class Intake {
     }
 
     public void run(double scalar) {
-        intakeMotor.setPower(0.5 * scalar);
+        intakeMotor.setPower(1 * scalar);
     }
 
     public void stop(){
