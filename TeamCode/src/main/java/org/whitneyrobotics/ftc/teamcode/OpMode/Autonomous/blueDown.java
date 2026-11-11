@@ -1,8 +1,8 @@
-package org.whitneyrobotics.ftc.teamcode.pedro.procedures;
+package org.whitneyrobotics.ftc.teamcode.OpMode.Autonomous;
 
-import static com.pedropathing.api.Paths.curve;
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -11,45 +11,51 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
-import org.whitneyrobotics.ftc.teamcode.pedro.Constants;
+import org.whitneyrobotics.ftc.teamcode.pedropathing.Constants;
 
-public class AutonomousredOpp extends OpModeEx {
+@Autonomous(name = "blue down")
+public class blueDown extends OpModeEx {
 
     private Follower follower;
     public final PoseFactory p = PoseFactory.degrees();
 
     // RED_PARKING Poses
-    public final Pose redOppStartPose = p.of(11, 113, 90);
-    public final Pose redOppScorePose = p.of(57, 121, 0);
-    public final Pose redOppParkPose = p.of(11, 113, 90);
+    public final Pose redStartPose = p.of(13, 127, 90);
+    public final Pose redPathPose = p.of(13, 118, 90);
+    public final Pose redPathPose2 = p.of(56, 118, 90);
+    public final Pose redParkPose = p.of(13, 118, 90);
+
+    public Path path1() {
+        return line(redStartPose, redPathPose).linear(redStartPose, redPathPose);
+    }
+
+    public Path path2() {
+        return line(redPathPose, redPathPose2).linear(redPathPose, redPathPose2);
+    }
+
+    public Path path3() {
+        return line(redPathPose2, redParkPose).linear(redPathPose2, redParkPose);
+    }
 
     public Command autoRoutine() {
         return sequential(
-                follow(follower, line(redOppStartPose, redOppScorePose).linear(redOppStartPose, redOppScorePose)),
-                follow(follower, line(redOppScorePose, redOppParkPose).linear(redOppScorePose, redOppParkPose))
+                follow(follower, path1()),
+                follow(follower, path2()),
+                waitMs(2000), // Waits 2000 ms before parking
+                follow(follower, path3())
         );
-
     }
 
     @Override
     public void initInternal() {
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
-        if (follower != null) {
-            follower.setPose(redOppStartPose);
-            follower.update();
-        }
-    }
-
-    @Override
-    public void initInternalLoop() {
-        if (follower != null) {
-            follower.update();
-        }
-        telemetry.addData("Selected Path", "Red Parking");
-        telemetry.update();
+        follower.setPose(redStartPose);
+        follower.update();
     }
 
     @Override
@@ -68,15 +74,8 @@ public class AutonomousredOpp extends OpModeEx {
             telemetryPro.addData("X", follower.pose().x());
             telemetryPro.addData("Y", follower.pose().y());
             telemetryPro.addData("Heading", Math.toDegrees(follower.pose().heading()));
-            telemetry.addData("Follower Mode", follower.mode());
+            telemetryPro.addData("Follower Mode", follower.mode());
         }
-        telemetry.update();
+        telemetryPro.update();
     }
 }
-
-
-
-
-
-
-
