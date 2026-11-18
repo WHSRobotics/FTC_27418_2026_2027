@@ -13,7 +13,8 @@ public class Outtake {
     final double tps6000 = 28.0;
 
     public void run(double targetRPM) {
-       outtakeMotor.setVelocity((targetRPM / 60.0) * tps6000);
+//       outtakeMotor.setVelocity((targetRPM / 60.0) * tps6000);
+        outtakeMotor.setVelocity(targetRPM);
     }
 
     public void stop(){
