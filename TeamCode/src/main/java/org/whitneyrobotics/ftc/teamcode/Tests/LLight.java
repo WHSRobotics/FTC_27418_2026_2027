@@ -55,11 +55,11 @@ public class LLight extends OpModeEx {
 
                     double txAngle = result.getTx(); // Horizontal angle offset relative to crosshair
 
-                    telemetryPro.addData("Eucl. Dist. in CM: ", hypotdistcm);
-                    telemetryPro.addData("X Dist in CM: ", xdistcm);
-                    telemetryPro.addData("Y Dist in CM: ", ydistcm);
-                    telemetryPro.addData("Z Dist in CM: ", zdistcm);
-                    telemetryPro.addData("tx crosshair offset in degrees: ", txAngle);
+                    telemetryPro.addData("Eucl. Dist. in CM: ", Math.round(hypotdistcm));
+                    telemetryPro.addData("X Dist in CM: ", Math.round(xdistcm));
+                    telemetryPro.addData("Y Dist in CM: ", Math.round(ydistcm));
+                    telemetryPro.addData("Z Dist in CM: ", Math.round(zdistcm));
+                    telemetryPro.addData("tx crosshair offset in degrees: ", Math.round(txAngle));
                 } else {
                     telemetryPro.addLine("Target pose position null");
                 }
