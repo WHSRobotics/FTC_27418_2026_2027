@@ -4,18 +4,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
+import org.whitneyrobotics.ftc.teamcode.Subsystems.Outtake;
 
 import java.util.List;
 
 @TeleOp(name = "--- LIMELIGHT DISTANCE XY HYPO TEST V1 ---", group = "Sensor")
 public class LLight extends OpModeEx {
     private Limelight3A limelight;
+    private Outtake launch;
 
     @Override
     public void initInternal() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        launch = new Outtake(hardwareMap);
         limelight.pipelineSwitch(0); // Switch to desired AprilTag pipeline
         limelight.start(); // Starts background polling thread
 
@@ -55,11 +60,14 @@ public class LLight extends OpModeEx {
 
                     double txAngle = result.getTx(); // Horizontal angle offset relative to crosshair
 
+                    launch.run(hypotdistcm * 100);
+
                     telemetryPro.addData("Eucl. Dist. in CM: ", Math.round(hypotdistcm));
                     telemetryPro.addData("X Dist in CM: ", Math.round(xdistcm));
                     telemetryPro.addData("Y Dist in CM: ", Math.round(ydistcm));
                     telemetryPro.addData("Z Dist in CM: ", Math.round(zdistcm));
                     telemetryPro.addData("tx crosshair offset in degrees: ", Math.round(txAngle));
+                    telemetryPro.addData("\nRPM: ", Math.round(launch.getVelocity()));
                 } else {
                     telemetryPro.addLine("Target pose position null");
                 }
