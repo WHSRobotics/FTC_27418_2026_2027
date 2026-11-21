@@ -4,6 +4,9 @@ import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
+import static org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp.BiobuzzTeleOp.autonEnd;
+import static org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp.BiobuzzTeleOp.redAlliance;
+
 import com.pedropathing.api.Paths;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
@@ -20,12 +23,26 @@ import org.whitneyrobotics.ftc.teamcode.pedropathing.Constants;
 public class redUp extends OpModeEx {
     private Follower follower;
 
-    public final PoseFactory poseFactory = PoseFactory.degrees();
+    private final PoseFactory poseFactory = PoseFactory.degrees();
 
-    public final Pose start = poseFactory.of(58.75, 8.75, 90);
-    public final Pose point1 = poseFactory.of(58.75, 21.75, 90);
-    public final Pose point2 = poseFactory.of(9.75, 66.75, 90);
-    public final Pose point3 = poseFactory.of(9.75, 92.75, -90);
+    private final Pose start = poseFactory.of(56.5921, 9.1841, 90);
+    private final Pose path1 = poseFactory.of(56.5921, 23.3696, 90);
+    private final Pose point2Start = poseFactory.of(56.5921, 23.3696, 90);
+    private final Pose point2 = poseFactory.of(23.3484, 45.0234, 90);
+    private final Pose point3Start = poseFactory.of(23.3484, 45.0234, 90);
+    private final Pose point3 = poseFactory.of(13.8416, 92.9116, 90);
+
+    public Path path1() {
+        return Paths.line(start, path1).linear(start, path1);
+    }
+
+    public Path path2() {
+        return Paths.line(point2Start, point2).linear(point2Start, point2);
+    }
+
+    public Path path3() {
+        return Paths.line(point3Start, point3).linear(point3Start, point3);
+    }
 
     // Autonomous routine
     public Command autoRoutine() {
@@ -42,6 +59,7 @@ public class redUp extends OpModeEx {
         follower = Constants.create(hardwareMap);
         follower.setPose(start);
         follower.update();
+        redAlliance = true;
     }
 
     @Override
@@ -67,17 +85,7 @@ public class redUp extends OpModeEx {
             }
         }
         telemetryPro.update();
-    }
-
-    public Path path1() {
-        return Paths.line(start, point1).constant(point1);
-    }
-
-    public Path path2() {
-        return Paths.line(point1, point2).constant(point2);
-    }
-
-    public Path path3() {
-        return Paths.line(point2, point3).reverseTangent();
+        autonEnd = follower.pose();
     }
 }
+

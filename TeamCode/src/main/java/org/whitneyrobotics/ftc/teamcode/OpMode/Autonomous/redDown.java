@@ -6,6 +6,10 @@ import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
+import static org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp.BiobuzzTeleOp.autonEnd;
+import static org.whitneyrobotics.ftc.teamcode.OpMode.TeleOp.BiobuzzTeleOp.redAlliance;
+
+import com.pedropathing.api.Paths;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ivy.Command;
@@ -21,24 +25,25 @@ import org.whitneyrobotics.ftc.teamcode.pedropathing.Constants;
 public class redDown extends OpModeEx {
 
     private Follower follower;
-    public final PoseFactory p = PoseFactory.degrees();
+    private final PoseFactory poseFactory = PoseFactory.degrees();
 
-    // RED_PARKING Poses
-    public final Pose redStartPose = p.of(127, 13, 90);
-    public final Pose redPathPose = p.of(127, 22, 90);
-    public final Pose redPathPose2 = p.of(83, 22, 90);
-    public final Pose redParkPose = p.of(127, 22, 90);
+    private final Pose start = poseFactory.of(13.9644, 136.8696, 90);
+    private final Pose path1 = poseFactory.of(14.1618, 117.9003, 90);
+    private final Pose point2Start = poseFactory.of(14.1618, 117.9003, 0);
+    private final Pose point2 = poseFactory.of(57.8042, 117.9679, 270);
+    private final Pose point3Start = poseFactory.of(57.8042, 117.9679, 270);
+    private final Pose point3 = poseFactory.of(14.2186, 117.2672, 270);
 
     public Path path1() {
-        return line(redStartPose, redPathPose).linear(redStartPose, redPathPose);
+        return Paths.line(start, path1).linear(start, path1);
     }
 
     public Path path2() {
-        return line(redPathPose, redPathPose2).linear(redPathPose, redPathPose2);
+        return Paths.line(point2Start, point2).linear(point2Start, point2);
     }
 
     public Path path3() {
-        return line(redPathPose2, redParkPose).linear(redPathPose2, redParkPose);
+        return Paths.line(point3Start, point3).linear(point3Start, point3);
     }
 
     public Command autoRoutine() {
@@ -54,8 +59,9 @@ public class redDown extends OpModeEx {
     public void initInternal() {
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
-        follower.setPose(redStartPose);
+        follower.setPose(start);
         follower.update();
+        redAlliance = true;
     }
 
     @Override
@@ -77,5 +83,6 @@ public class redDown extends OpModeEx {
             telemetryPro.addData("Follower Mode", follower.mode());
         }
         telemetryPro.update();
+        autonEnd = follower.pose();
     }
 }

@@ -5,12 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.whitneyrobotics.ftc.teamcode.Extensions.OpModeEx.OpModeEx;
 import org.whitneyrobotics.ftc.teamcode.Subsystems.Outtake;
 import org.whitneyrobotics.ftc.teamcode.Subsystems.Robot;
-
+import com.pedropathing.api.Paths;
+import com.pedropathing.api.PoseFactory;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.Scheduler;
+import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
 @TeleOp(name="BiobuzzTeleOp")
 public class BiobuzzTeleOp extends OpModeEx {
-
     private Robot robot;
     private boolean robotCentric = true;
+
+    public static boolean redAlliance;
+    public static Pose autonEnd;
 
     double[] velocities = {1600, 2000, 2400, 2800};
     double velo1 = 0.0;
@@ -21,10 +29,16 @@ public class BiobuzzTeleOp extends OpModeEx {
     @Override
     public void initInternal() {
         robot = new Robot(hardwareMap);
+        if(redAlliance){
+            robot.drive.follower.setPose(new Pose(autonEnd.x(), autonEnd.y(),autonEnd.heading()+(Math.PI)/2));
+        } else{
+            robot.drive.follower.setPose(new Pose(autonEnd.x(), autonEnd.y(),autonEnd.heading()-(Math.PI)/2));
+        }
     }
 
     @Override
     protected void loopInternal() {
+        telemetryPro.addData("is red alliance?", redAlliance);
         // Toggle Robot/Field Centric Drive
         gamepad1.BUMPER_RIGHT.onPress(() -> {
             robotCentric = !robotCentric;
@@ -64,12 +78,42 @@ public class BiobuzzTeleOp extends OpModeEx {
 
         gamepad2.Y.onPress(() -> {
             velo1 = velocities[1];
+
+
         });
         gamepad2.B.onPress(() -> {
             velo1 = velocities[2];
         });
         gamepad2.A.onPress(() -> {
             velo1 = velocities[3];
+        });
+        //gamepad 1 is selecting path based on autons end pose
+        gamepad1.Y.onPress(()->{
+            // is path for blue up
+            Pose currentPose = new Pose(126.0458, 46.104, 270);
+            //change to 0 for heading
+            // change heading so it matches drivers view
+
+        });
+        gamepad1.X.onPress(()->{
+            // is path for blue down
+            Pose currentPose = new Pose(128.7066, 23.3719, 90);
+            //change heading to be 180
+
+
+        });
+        gamepad1.A.onPress(()->{
+            // is path for red up
+            Pose currentPose = new Pose(13.8416, 92.9116, 90);
+            // change heading to be 0
+
+
+        });
+        gamepad1.B.onPress(()->{
+            //is path for red down
+            Pose currentPose = new Pose(14.2186, 117.2672, 270);
+          // change heading to be 0
+
         });
 
         telemetryPro.addData("velocity: ", robot.outtake.getVelocity());
